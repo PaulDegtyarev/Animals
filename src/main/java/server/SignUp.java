@@ -1,6 +1,7 @@
 package server;
 
 import hibernate.Users;
+import hibernate.Animal;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
@@ -22,6 +23,7 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import org.hibernate.Session;
+import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 import utils.HibernateSessionFactoryUtil;
 
@@ -49,6 +51,7 @@ public class SignUp extends AbstractVerticle {
         router.get("/accounts/search").handler(this::getuserByParameter);
         router.get("/accounts/:accountId").handler(this::getUserById);
         router.put("/accounts/:accountId").handler(this::updateUserById);
+        router.delete("/accounts/:accountId").handler(this::deleteUserById);
 
 
         vertx.createHttpServer()
@@ -392,6 +395,7 @@ public class SignUp extends AbstractVerticle {
 
                 String token = routingContext.request().getHeader("token");
 
+                String emailPattern = "^[a-z0-9]+@[a-z0-9]+(\\.[a-z]{2,})$";
                 String roles[] = {"ADMIN", "CHIPPER", "USER"};
                 ArrayList<String> rolesList = new ArrayList<>(Arrays.asList(roles));
 
@@ -402,7 +406,7 @@ public class SignUp extends AbstractVerticle {
                 if (accountId == (null) || accountId <= 0) {
                     routingContext.response().setStatusCode(400).end("accountId cannot be null or less than 0");
                 } else {
-                    if (newFirstName == (null) || newFirstName.trim().isEmpty() || newLastName == (null) || newLastName.trim().isEmpty() || newEmail == (null) || newEmail.trim().isEmpty() || !rolesList.contains(newRole) || newPassword.equals("null") || newPassword.trim().isEmpty()) {
+                    if (newFirstName == (null) || newFirstName.trim().isEmpty() || newLastName == (null) || newLastName.trim().isEmpty() || newEmail == (null) || newEmail.trim().isEmpty() || !newEmail.trim().matches(emailPattern) || !rolesList.contains(newRole) || newPassword.equals("null") || newPassword.trim().isEmpty()) {
                         routingContext.response().setStatusCode(400).end();
                     } else {
                         Query queryForUpdate = session.createQuery("FROM Users where id = :userId");
@@ -479,6 +483,39 @@ public class SignUp extends AbstractVerticle {
                         }
                     }
                 }
+                session.close();
+            }
+        });
+    }
+
+    private void deleteUserById(RoutingContext routingContext) {
+        routingContext.request().body().onComplete(bufferAsyncResult -> {
+            if (bufferAsyncResult.succeeded()) {
+                String accountIdParam = routingContext.pathParam("accountId");
+                Integer accountId = null;
+                if (!"null".equals(accountIdParam)) {
+                    accountId = Integer.parseInt(accountIdParam);
+                }
+
+                Configuration configuration = new org.hibernate.cfg.Configuration().configure("hibernate.cfg.xml");
+                configuration.addAnnotatedClass(Animal.class);
+
+                Session session = configuration
+                        .buildSessionFactory()
+                        .openSession();
+
+                session.beginTransaction();
+
+                out.println(1);
+
+                Query querycheckChippersWithAnimals = session.createQuery("FROM Animal");
+                List<Animal> result = querycheckChippersWithAnimals.list();
+//                Long countChippersToCheck = (Long) querycheckChippersWithAnimals.getSingleResult();
+
+                out.println(result);
+
+
+//                if (accountId == null || accountId <= 0 ||
                 session.close();
             }
         });

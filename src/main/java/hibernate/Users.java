@@ -3,7 +3,6 @@ package hibernate;
 import java.io.Serializable;
 
 import jakarta.persistence.*;
-import jakarta.persistence.criteria.CriteriaBuilder;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -14,11 +13,13 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 
 import java.util.Base64;
+
 @Entity
 @Table(name = "users", schema = "animals")
 public class Users implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @OneToMany(mappedBy = "users")
     private Integer id;
 
     @Column(name =  "firstname")

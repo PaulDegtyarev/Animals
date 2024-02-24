@@ -1,0 +1,23 @@
+create table animals.users (id serial primary key,
+firstname varchar(255),
+lastname varchar(255),
+email varchar(255),
+role varchar(255),
+password varchar(255),
+usertoken varchar(255));
+
+CREATE TABLE animals.animal (
+  id BIGSERIAL PRIMARY KEY,
+  animalTypes BIGINT[],
+  weight DECIMAL,
+  length DECIMAL,
+  height DECIMAL,
+  gender VARCHAR(10),
+  lifeStatus VARCHAR(10),
+  chippingDateTime TIMESTAMP,
+  chipperId INT,
+  chippingLocationId BIGINT,
+  visitedLocations BIGINT[],
+  deathDateTime TIMESTAMP,
+  FOREIGN KEY (chipperId) REFERENCES users (id)
+);
