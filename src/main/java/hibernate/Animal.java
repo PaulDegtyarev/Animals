@@ -36,15 +36,63 @@ public class Animal implements Serializable {
     public Timestamp chippingdatetime;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id", foreignKey = @ForeignKey(name = "chipperid"))
+    @JoinColumn(name = "chipperid", referencedColumnName = "id")
     public Users chipperid;
 
     @Column(name = "chippinglocationid")
     public Integer chippinglocationid;
 
-    @Column(name = "visitedlocationid")
-    public BigInteger[] visitedlocationid;
+    @Column(name = "visitedLocations")
+    public BigInteger[] visitedlocations;
 
     @Column(name = "deathdatetime")
     public Timestamp deathdatetime;
+
+
+    public Integer getId(){
+        return id;
+    }
+    public BigInteger[] getAnimaltypes(){
+        return animaltypes;
+    }
+
+    public Float getWeight(){
+        return weight;
+    }
+
+    public Float getLength(){
+        return length;
+    }
+
+    public Float getHeight() {
+        return height;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public String getLifeStatus() {
+        return lifestatus;
+    }
+
+    public Timestamp getChippingDateTime() {
+        return chippingdatetime;
+    }
+
+    public Users getChipperid() {
+        return chipperid;
+    }
+
+    public Integer getChippingLocationId() {
+        return chippinglocationid;
+    }
+
+    public BigInteger[] getVisitedlocations() {
+        return visitedlocations;
+    }
+
+    public Timestamp getDeathDateTime() {
+        return deathdatetime;
+    }
 }

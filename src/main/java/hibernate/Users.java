@@ -14,31 +14,30 @@ import java.security.spec.KeySpec;
 
 import java.util.Base64;
 
-@Entity
+@Entity(name = "Users")
 @Table(name = "users", schema = "animals")
 public class Users implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @OneToMany(mappedBy = "users")
     private Integer id;
 
     @Column(name =  "firstname")
-    public String firstname;
+    private String firstname;
 
     @Column(name = "lastname")
-    public String lastname;
+    private String lastname;
 
     @Column(name = "email")
-    public String email;
+    private String email;
 
     @Column(name = "password")
-    public String password;
+    private String password;
 
     @Column(name = "role")
-    public String role;
+    private String role;
 
     @Column(name = "usertoken")
-    public String usertoken;
+    private String usertoken;
 
     public Integer getId(){
 

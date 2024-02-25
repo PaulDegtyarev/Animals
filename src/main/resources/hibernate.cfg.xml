@@ -15,7 +15,7 @@
         <property name="show_sql">true</property> <!-- Show SQL in console -->
         <property name="format_sql">true</property> <!-- Show SQL formatted -->
 
-        <mapping package="hibernate"/>
+        <mapping class="hibernate.Animal"></mapping>
 
     </session-factory>
 </hibernate-configuration>

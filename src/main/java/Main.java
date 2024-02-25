@@ -1,8 +1,7 @@
 import io.vertx.core.*;
 
-
-import server.SelectEmail;
-import server.SignUp;
+import server.ForAnimals;
+import server.ForUsers.*;
 
 public class Main extends Launcher {
 
@@ -10,7 +9,11 @@ public class Main extends Launcher {
         Vertx vertx = Vertx.vertx();
 
         vertx.deployVerticle(new SignUp());
-//        vertx.deployVerticle(new SelectEmail());
+        vertx.deployVerticle(new DeleteUserById());
+//        vertx.deployVerticle(new GetUserByParameter());
+//        vertx.deployVerticle(new UpdateUserById());
+//        vertx.deployVerticle(new GetUserById());
+//        vertx.deployVerticle(new ForAnimals());
 
     }
 }
